@@ -1,9 +1,36 @@
 /**
-  * Classes: xWords, Position, Word and Alternative Grid
+ *   Copyright 2014 Richard Rulach 
+ *   Licensed under the Apache License, Version 2.0 (the "License"); 
+ *   you may not use this file except in compliance with the License. 
+ *
+ *   You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0 
+ *
+ *   Unless required by applicable law or agreed to in writing, 
+ *   software distributed under the License is distributed on 
+ *   an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
+ *   either express or implied. See the License for the specific 
+ *   language governing permissions and limitations under the License
+**/
+
+/**
+  * Classes: xWords, Position, Word and AlternativeGrid
   * File: xWords.js 
   *
   * Definition:
-  *		Creates and manages a crossword.
+  *		xWords 				- Creates and manages a crossword.
+  *		Position 			- Holds the possible location for 
+  *					  	  	  the use of a word in the crossword
+  *		Word 				- Holds all the information about an
+  *							  a word to be used in the crossword.
+  *		AlternativeGrid 	- Retains the details of a crossword
+  *							  grid so that several can be generated 
+  *							  and compared.
+  *
+  * Dependencies:
+  *		NO EXTERNAL DEPENDENCIES
+  *
   *
  **/
 var xWords = {
@@ -14,7 +41,7 @@ var xWords = {
    	MAX_PASSES: 3,		// MAXIMUM NUMBER OF ATTEMPTS TO PLACE A WORD
    	MAX_RUNTIME: 5000, 	// THE MAXIMUM RUN TIME IN MILLISECONDS
 
-   	CENTER_FIRST: false,	// PLACE THE FIRST IN CENTER
+   	CENTER_FIRST: false,// PLACE THE FIRST WORD IN THE GRID CENTER
    	UNSET: -1,			// CONSTANT FOR UNASSIGNED INDEXES
 
 
@@ -27,6 +54,7 @@ var xWords = {
 	QuestionList:new Array(),	// Numbered clues
 	bestFit:null,				// Records the grid with fewest orphans
 								// over all iterations.
+	sErrors:'',
 
 	/* PUBLIC METHODS */
 	// resets the grid and word list
@@ -188,7 +216,7 @@ var xWords = {
 						x: this.Words[i].crossingPositions[this.Words[i].posIndex].x,
 						y: this.Words[i].crossingPositions[this.Words[i].posIndex].y,
 						d: this.Words[i].crossingPositions[this.Words[i].posIndex].direction,
-						clue: this.Words[i].word
+						clue: this.Words[i].clue
 					};
 					this.QuestionList.push(tmpObj);
 
@@ -199,7 +227,7 @@ var xWords = {
 						y: this.Words[i].availablePositions[this.Words[i].posIndex].y,
 						d: this.Words[i].availablePositions[this.Words[i].posIndex].direction,
 						num: 0,
-						clue: this.Words[i].word
+						clue: this.Words[i].clue
 					};
 					this.QuestionList.push(tmpObj);
 
@@ -550,8 +578,16 @@ function Position(x,y,direction,crossingPoint){
   *
  **/
 function Word(txt){
-	this.word = txt;
-	this.clue = '';//clue;
+	txt = txt.trim();
+	var pos = txt.indexOf(',');
+	if ((pos > 0)&&(pos < txt.length - 1)){
+		this.word = txt.substr(0,pos);
+		this.clue = txt.substr(pos + 1);
+	} else {
+		xWords.sErrors += 'Missing clue: ' + txt + '<br/>'
+		this.word = txt;
+		this.clue = txt;
+	}
 	this.crossingPositions = new Array();
 	this.availablePositions = new Array();
 	this.orphaned = true;
