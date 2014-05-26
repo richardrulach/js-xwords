@@ -17,8 +17,8 @@
 
 // SET UP GLOBAL DISPLAY PARAMETERS
 var GRID_SIZE = 25;
-var HORIZONTAL_BOXES = 12;
-var VERTICAL_BOXES = 12;
+var HORIZONTAL_BOXES = 9;
+var VERTICAL_BOXES = 9;
 var RUN_PROFILER = false;
 
 var GRID_WIDTH = GRID_SIZE * HORIZONTAL_BOXES;
@@ -32,8 +32,8 @@ function updateBoxSize(numPixels){
 }
 
 function updateGridSize(horizontal,vertical){
-    HORIZONTAL_BOXES = 15;
-    VERTICAL_BOXES = 15;
+    HORIZONTAL_BOXES = 9;
+    VERTICAL_BOXES = 9;
     
     GRID_WIDTH = GRID_SIZE * HORIZONTAL_BOXES;
     GRID_HEIGHT = GRID_SIZE * VERTICAL_BOXES;
@@ -163,6 +163,7 @@ function run(){
 function DisplayErrors(){
     $('#errors').html("<h2>ERRORS</h2>");
     $('#errors').append(xWords.sErrors);
+    console.log(xWords.sErrors);
 }
 
 function DisplayClues(){

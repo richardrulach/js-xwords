@@ -60,9 +60,16 @@ var xWords = {
 	// resets the grid and word list
 	Reset: function(){
 		this.Grid = new Array();
-		this.Words = new Array();
 		this.QuestionGrid = new Array();
 		this.QuestionList = new Array();
+	},
+
+	ResetComplete: function(){
+		this.Reset();
+
+		this.Words = new Array();
+		this.bestFit = null;
+		this.sErrors = '';
 	},
 
 	// INDICATES HOW MANY GROUPINGS OF WORDS ARE ON THE GRID
@@ -85,7 +92,7 @@ var xWords = {
 	GetUnusedWords: function(){
 		var unusedArray = new Array();
 		for (var x = 0; x < this.Words.length; x++){
-			if (this.Words[x].posIndex == this.UNSET){
+			if (this.Words[x].chosenPosition == null){
 				unusedArray.push(this.Words[x].word);
 			}	
 		}
@@ -109,8 +116,16 @@ var xWords = {
 		var time1 = new Date().getTime();
 		var lIteration = 1;
 
-		this.Reset();
+		this.ResetComplete();
 		this.bestFit = null;
+
+		// LOAD ALL WORDS TWO OR MORE LETTERS LONG
+		for (var x=0; x < arrayOfWords.length; x++){
+			if (arrayOfWords[x].trim().length > 1){
+			 	this.Words.push(new Word(arrayOfWords[x]));
+			}
+		}
+
 
 		do {
 
@@ -133,15 +148,23 @@ var xWords = {
 
 			// CREATE A NEW WORD AND ADD TO THE 
 			// WORDS ARRAY
-			for (var x=0; x < arrayOfWords.length; x++){
 
-				// MUST BE AT LEAST 2 CHARS LONG
-				if (arrayOfWords[x].length > 1){
-				 	this.Words.push(new Word(arrayOfWords[x]));
-				}
+			// if (this.Words.length == 0 ){
+			// 	for (var x=0; x < arrayOfWords.length; x++){
+
+			// 		// MUST BE AT LEAST 2 CHARS LONG
+			// 		if (arrayOfWords[x].length > 1){
+			// 		 	this.Words.push(new Word(arrayOfWords[x]));
+			// 		}
+			// 	}
+			// } else {
+			for (var x=0; x < this.Words.length; x++){
+				this.Words[x].Reset();
 			}
 
-			// ORDER ALL OF THE WORDS BY WHICH IS THE LONGEST
+			// }
+
+			// ORDER THE WORDS BY LENGTH
 			this.SortByLength(this.Words);
 
 			for (var y = 1; y <= this.MAX_PASSES; y++){
@@ -593,9 +616,17 @@ function Word(txt){
 	this.orphaned = true;
 	this.posIndex = -1;
 	this.chosenPosition = null;
+	this.ResetArrays = function(){
+		this.crossingPositions = new Array();
+		this.availablePositions = new Array();
+	};
+	
 	this.Reset = function(){
 		this.crossingPositions = new Array();
 		this.availablePositions = new Array();
+		this.orphaned = true;
+		this.posIndex = -1;
+		this.chosenPosition = null;
 	};
 }
 
