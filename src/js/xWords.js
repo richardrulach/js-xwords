@@ -79,12 +79,6 @@ var xWords = {
 			if (this.Words[x].orphaned){
 				iReturn++;
 			}
-			// if ((this.Words[x].orphaned)&&
-			// 	(this.Words[x].posIndex != this.UNSET)){
-			// 	iReturn++;
-			// } else if (this.Words[x].chosenPosition == null) {
-			// 	iReturn++;
-			// }
 		}
 		return iReturn;
 	},
@@ -146,23 +140,11 @@ var xWords = {
 	            }
 	        }
 
-			// CREATE A NEW WORD AND ADD TO THE 
-			// WORDS ARRAY
-
-			// if (this.Words.length == 0 ){
-			// 	for (var x=0; x < arrayOfWords.length; x++){
-
-			// 		// MUST BE AT LEAST 2 CHARS LONG
-			// 		if (arrayOfWords[x].length > 1){
-			// 		 	this.Words.push(new Word(arrayOfWords[x]));
-			// 		}
-			// 	}
-			// } else {
+			// RESET WORDS - ESSENTIAL SO THAT MULTIPLE
+			// ITERATIONS CAN BE RUN 
 			for (var x=0; x < this.Words.length; x++){
 				this.Words[x].Reset();
 			}
-
-			// }
 
 			// ORDER THE WORDS BY LENGTH
 			this.SortByLength(this.Words);

@@ -106,9 +106,6 @@ function run(){
     var contextQuestionSmallFont = smallFontSize.toString() + "px _sans";
     var contextQuestionLargeFont = fontSize.toString() + "px _sans";
 
-    // contextQuestion.font = 
-    //     smallFontSize.toString() + "px _sans";
-
     // GENERATE ARRAY OF WORDS TO PUT INTO THE CANVAS
     var rawData = $('#txtWords').val();
     var aValues = rawData.split('\n');
@@ -163,7 +160,6 @@ function run(){
                     if (Math.floor(Math.random() * 100) < 
                         REVEAL_LETTERS){
 
-//                        contextQuestion.beginPath();
                         contextQuestion.font = contextQuestionLargeFont;
                         contextQuestion.textBaseline = "middle";
                         var x1 = Math.round((GRID_SIZE - 
@@ -172,7 +168,6 @@ function run(){
                           i*GRID_SIZE + x1 - 0.5, 
                           j*GRID_SIZE + (GRID_SIZE/2));
                         contextQuestion.stroke();
-  //                      contextQuestion.closePath();
 
                     }
                 }
@@ -209,7 +204,6 @@ function run(){
 function DisplayErrors(){
     $('#errors').html("<h2>ERRORS</h2>");
     $('#errors').append(xWords.sErrors);
-    console.log(xWords.sErrors);
 }
 
 function DisplayClues(){
