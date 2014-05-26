@@ -17,9 +17,10 @@
 
 // SET UP GLOBAL DISPLAY PARAMETERS
 var GRID_SIZE = 25;
-var HORIZONTAL_BOXES = 9;
-var VERTICAL_BOXES = 9;
+var HORIZONTAL_BOXES = 15;
+var VERTICAL_BOXES = 15;
 var RUN_PROFILER = false;
+var REVEAL_LETTERS = 0;
 
 var GRID_WIDTH = GRID_SIZE * HORIZONTAL_BOXES;
 var GRID_HEIGHT = GRID_SIZE * VERTICAL_BOXES;
@@ -32,8 +33,8 @@ function updateBoxSize(numPixels){
 }
 
 function updateGridSize(horizontal,vertical){
-    HORIZONTAL_BOXES = 9;
-    VERTICAL_BOXES = 9;
+    if (horizontal > 0) HORIZONTAL_BOXES = horizontal;
+    if (vertical > 0) VERTICAL_BOXES = vertical;
     
     GRID_WIDTH = GRID_SIZE * HORIZONTAL_BOXES;
     GRID_HEIGHT = GRID_SIZE * VERTICAL_BOXES;
@@ -101,8 +102,12 @@ function run(){
     context.font = fontSize.toString() + "px _sans";
     context.textBaseline = "middle";
 
-    contextQuestion.font = 
-        smallFontSize.toString() + "px _sans";
+
+    var contextQuestionSmallFont = smallFontSize.toString() + "px _sans";
+    var contextQuestionLargeFont = fontSize.toString() + "px _sans";
+
+    // contextQuestion.font = 
+    //     smallFontSize.toString() + "px _sans";
 
     // GENERATE ARRAY OF WORDS TO PUT INTO THE CANVAS
     var rawData = $('#txtWords').val();
@@ -143,10 +148,35 @@ function run(){
                         qAdjustH = 10.6;
                     } 
 
+
+                    contextQuestion.font = contextQuestionSmallFont;
+                    contextQuestion.textBaseline = "alphabetic";
                     contextQuestion.fillText(qGrid[i][j],
                       i*GRID_SIZE + qAdjustW, 
                       j*GRID_SIZE + qAdjustH);
+
+                    contextQuestion.stroke();
                 }
+
+
+                if (REVEAL_LETTERS > 0){
+                    if (Math.floor(Math.random() * 100) < 
+                        REVEAL_LETTERS){
+
+//                        contextQuestion.beginPath();
+                        contextQuestion.font = contextQuestionLargeFont;
+                        contextQuestion.textBaseline = "middle";
+                        var x1 = Math.round((GRID_SIZE - 
+                        contextQuestion.measureText(crossword[i][j]).width) / 2);
+                        contextQuestion.fillText(crossword[i][j],
+                          i*GRID_SIZE + x1 - 0.5, 
+                          j*GRID_SIZE + (GRID_SIZE/2));
+                        contextQuestion.stroke();
+  //                      contextQuestion.closePath();
+
+                    }
+                }
+
 
                 var x = Math.round((GRID_SIZE - 
                 context.measureText(crossword[i][j]).width) / 2);
@@ -250,7 +280,16 @@ function DrawGrid(){
 function PrintCrossword()
 {
     var html="<!DOCTYPE html><html>";
-    html += '<head></head><body"><header style="text-align:center;"><h1>xWords Crossword</header></div>';
+    html += '<head></head><body">';
+    html += '<header style="text-align:center;">';
+
+    if ($('#txtCrosswordTitle').val().trim().length > 0){
+        html += '<h1>' + $('#txtCrosswordTitle').val().trim() + '</h1>';
+    } else {
+        html += '<h1>xWords Crossword</h1>';
+    }
+
+    html += '</header></div>';
     html += '<div style="text-align:center;margin-top:20px;">';
     html += '<img border="2px" src="' +
         canvasQuestion.toDataURL('image/png') + '" />';

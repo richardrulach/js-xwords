@@ -93,6 +93,10 @@
                 <div class="sliderContainer">
                     <div id="vSlider"></div>
                 </div>
+                <div class="sliderText">Reveal letters <span id="revealLettersValue"></span></div>
+                <div class="sliderContainer">
+                    <div id="revealLettersSlider"></div>
+                </div>
                 <div>
                     <input 
                             type="button" 
@@ -154,6 +158,9 @@
                 value:25,
                 slide: function( event, ui ) {
                     $('#sliderValue').html(ui.value);
+                },
+                change: function( event, ui ) {
+                    updateBoxSize(ui.value);
                 }
             });
 
@@ -164,6 +171,9 @@
                 value:12,
                 slide: function( event, ui ) {
                     $('#hSliderValue').html(ui.value);
+                },
+                change: function( event, ui ) {
+                    updateGridSize(ui.value,-1);
                 }
             });
 
@@ -173,6 +183,21 @@
                 value:12,
                 slide: function( event, ui ) {
                     $('#vSliderValue').html(ui.value);
+                },
+                change: function( event, ui ) {
+                    updateGridSize(-1, ui.value);
+                }
+            });
+
+            $( "#revealLettersSlider" ).slider({
+                max:100,
+                min:0,
+                value:0,
+                slide: function( event, ui ) {
+                    $('#revealLettersValue').html(ui.value + "%");
+                },
+                change: function( event, ui ) {
+                    REVEAL_LETTERS = ui.value;
                 }
             });
 
@@ -184,6 +209,9 @@
             );
             $('#hSliderValue').html(
                 $( "#hSlider" ).slider( "value" )
+            );
+            $('#revealLettersValue').html(
+                $( "#revealLettersSlider" ).slider( "value" ) + "%"
             );
 
         }
