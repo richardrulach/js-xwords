@@ -50,6 +50,21 @@ function btnPrint_click(){
     PrintCrossword();
 }
 
+
+function btnLoadSampleData_click(){
+    $('#txtWords').val(
+        'jumper,keeps you warm in winter\n' + 
+        'jeans,usually faded blue\n' +
+        'skirt,women wear these over their legs\n' + 
+        'trousers,men wear these over their legs\n' +
+        'socks,worn on the feet\n' +
+        'shoes,usually have laces\n' +
+        'shirt,worn on the body and usually has buttons\n' +
+        'hat,keeps your head warm\n' +
+        'gloves,normally only worn when it is very cold to protect your hands\n'
+        );
+}
+
 function run(){
 
     xWords.Reset();
@@ -160,6 +175,7 @@ function run(){
 }
 
 
+
 function DisplayErrors(){
     $('#errors').html("<h2>ERRORS</h2>");
     $('#errors').append(xWords.sErrors);
@@ -244,10 +260,10 @@ function PrintCrossword()
     html += '<div style="width:100%; text-align:center">';
     html += '<div style="width:400px; margin:0px auto;">';
 
-    html += '<div style="float:left;text-align:left">' +    $('#across').html() + 
+    html += '<div style="float:left;text-align:left; width:190px;">' +    $('#across').html() + 
             '</div>';
 
-    html += '<div style="float:right;text-align:left;margin-left:20px;">' +    $('#down').html() + 
+    html += '<div style="float:right;text-align:left; width:190px;">' +    $('#down').html() + 
             '</div>';
 
     html += '</div>';

@@ -8,7 +8,8 @@
     <!-- Bootstrap -->
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/loading.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -19,6 +20,10 @@
         #mainContainer { display:none; }
         .canvasContainer { margin-bottom:15px; }
 
+        .sliderText { font-weight: bold;}
+        .sliderText span { font-weight: normal;}
+        .sliderValues { font-weight: bold;}
+        .sliderContainer { margin-bottom:20px;}
     </style>
   </head>
   <body>
@@ -26,7 +31,7 @@
     <div id="topContainer" class="container">
     <header>
       <div class="row">
-        <h1>xWords Demo</h1>
+        <h1>xWords Demo: Create a crossword</h1>
     </div>
     </header>
     <section>
@@ -39,26 +44,6 @@
             <div class="canvasContainer col-sm-6">
                 <canvas id="myCanvas" width="425" height="325" style="border:1px solid black;">
                 </canvas>
-            </div>
-        </div>
-    
-        <div class="row">
-            <div class="col-xs-12">
-                <div>
-                    <textarea id="txtWords"></textarea>
-                </div>
-                <div>
-                    <input 
-                            type="button" 
-                            id="btnAddWords" 
-                            onclick="btnAddWords_click()"
-                            value="Add Words" />
-                    <input 
-                            type="button" 
-                            id="btnPrint" 
-                            onclick="btnPrint_click()"
-                            value="Print" />
-                </div>
             </div>
         </div>
         <div class="row">
@@ -79,6 +64,54 @@
                 </div>                
             </div>
         </div>
+    
+        <div class="row">
+            <h2>Controls:</h2>
+        </row>
+        <div class="row">
+            <div class="col-sm-6">
+                <div>
+                    <div class="sliderText">
+                        Words and Clues:</div>
+                    <textarea style="width:100%" id="txtWords" rows="10"></textarea>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="sliderText">Title (only shows on print)</div>
+                <div class="sliderContainer">
+                    <input type="text" id="txtCrosswordTitle" value="" style="width:100%;" />
+                </div>
+                <div class="sliderText">Square size <span id="sliderValue"></span></div>
+                <div class="sliderContainer">
+                    <div id="slider"></div>
+                </div>
+                <div class="sliderText">Horizontal Squares <span id="hSliderValue"></span></div>
+                <div class="sliderContainer">
+                    <div id="hSlider"></div>
+                </div>
+                <div class="sliderText">Vertical Squares <span id="vSliderValue"></span></div>
+                <div class="sliderContainer">
+                    <div id="vSlider"></div>
+                </div>
+                <div>
+                    <input 
+                            type="button" 
+                            id="btnAddWords" 
+                            onclick="btnAddWords_click()"
+                            value="Generate!!!" />
+                    <input 
+                            type="button" 
+                            id="btnPrint" 
+                            onclick="btnPrint_click()"
+                            value="Print" />
+                    <input 
+                            type="button" 
+                            id="btnLoadSampleData" 
+                            onclick="btnLoadSampleData_click()"
+                            value="Load Sample Data" />
+                </div>
+            </div>
+        </div>
     </section>
     <footer class="row">
       <small></small>
@@ -94,6 +127,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <script src="js/xWords.js"></script>
     <script src="js/xWordsDisplay.js"></script>
     <script>
@@ -113,6 +147,45 @@
             context = canvas.getContext("2d");
 
             $('.loading').hide();
+
+            $( "#slider" ).slider({
+                max:50,
+                min:20,
+                value:25,
+                slide: function( event, ui ) {
+                    $('#sliderValue').html(ui.value);
+                }
+            });
+
+
+            $( "#hSlider" ).slider({
+                max:20,
+                min:5,
+                value:12,
+                slide: function( event, ui ) {
+                    $('#hSliderValue').html(ui.value);
+                }
+            });
+
+            $( "#vSlider" ).slider({
+                max:20,
+                min:5,
+                value:12,
+                slide: function( event, ui ) {
+                    $('#vSliderValue').html(ui.value);
+                }
+            });
+
+            $('#sliderValue').html(
+                $( "#slider" ).slider( "value" )
+            );
+            $('#vSliderValue').html(
+                $( "#vSlider" ).slider( "value" )
+            );
+            $('#hSliderValue').html(
+                $( "#hSlider" ).slider( "value" )
+            );
+
         }
     </script>
   </body>
