@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>xWords Demo</title>
+
+    <!-- Bootstrap -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/loading.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        #mainContainer { display:none; }
+        .canvasContainer { margin-bottom:15px; }
+
+    </style>
+  </head>
+  <body>
+
+    <div id="topContainer" class="container">
+    <header>
+      <div class="row">
+        <h1>xWords Demo</h1>
+    </div>
+    </header>
+    <section>
+        <div id="mainContainer" class="row">
+            <div class="canvasContainer col-md-6">
+                <canvas id="myQuestionCanvas" width="425" height="325" style="border:1px solid black;">
+                </canvas>
+            </div>
+
+            <div class="canvasContainer col-md-6">
+                <canvas id="myCanvas" width="425" height="325" style="border:1px solid black;">
+                </canvas>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-md-3">
+                <div>
+                    <textarea id="txtWords"></textarea>
+                </div>
+                <div>
+                    <input 
+                            type="button" 
+                            id="btnAddWords" 
+                            onclick="btnAddWords_click()"
+                            value="Add Words" />
+                    <input 
+                            type="button" 
+                            id="btnPrint" 
+                            onclick="printPage('topContainer')"
+                            value="Print" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div id="across">
+                </div>                
+            </div>
+            <div class="col-md-3">
+                <div id="down">
+                </div>                
+            </div>
+            <div class="col-md-3">
+                <div id="unused">
+                </div>                
+            </div>
+        </div>
+    </section>
+    <footer class="row">
+      <small></small>
+    </footer>
+    </div><!-- END CONTAINER CLASS -->
+
+    <!-- BUSY ANIMATION -->
+    <div class='loading'>
+        <img src="img/crosswordTimer.gif" />
+    </div>​
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="js/xWords.js"></script>
+    <script src="js/xWordsDisplay.js"></script>
+    <script>
+
+        function printPage(id)
+        {
+            var html="<!DOCTYPE html><html>";
+            html += '<head></head><body><div><h1>xWords Crossword</h1></div>';
+            html += '<div style="text-align:center;margin-top:20px;">';
+            html += '<img border="2px" src="' +
+                canvasQuestion.toDataURL() + '" />';
+            html += '</div>';
+
+            html += '<div style="float:left;width:50%">' +    $('#across').html() + 
+                    '</div>';
+
+            html += '<div style="float:left;width:50%">' +    $('#down').html() + 
+                    '</div>';
+
+            html += '<br style="clear:both;" />';
+            html += '<div style="text-align:center;margin-top:20px;">';
+            html += '<img border="2px" src="' +
+                canvas.toDataURL() + '" />';
+            html += '</div>';
+            html+="</body></html>";
+
+            var printWin = window.open('','','toolbar=0,scrollbars=1,status=0');
+            printWin.document.write(html);
+            printWin.document.close();
+            printWin.focus();
+            printWin.print();
+
+        }
+
+        var context;
+        var canvas;
+
+        var contextQuestion;
+        var canvasQuestion;
+
+        var GRID_SIZE = 25;
+        var HORIZONTAL_BOXES = 15;
+        var VERTICAL_BOXES = 15;
+        var PROFILE_CREATE = false;
+
+        var GRID_WIDTH = GRID_SIZE * HORIZONTAL_BOXES;
+        var GRID_HEIGHT = GRID_SIZE * VERTICAL_BOXES;
+
+        $('.loading').hide();
+
+
+        function btnAddWords_click(){
+            $('.loading').show();
+            setTimeout(run,1000);
+        }
+
+        function run(){
+
+            $('.loading').focus();
+
+            xWords.Reset();
+
+            canvas.width = GRID_WIDTH;
+            canvas.height = GRID_HEIGHT;
+
+            canvasQuestion.width = GRID_WIDTH;
+            canvasQuestion.height = GRID_HEIGHT;
+
+            contextQuestion.clearRect(0, 0, GRID_WIDTH, GRID_HEIGHT);
+            context.clearRect(0, 0, GRID_WIDTH, GRID_HEIGHT);
+
+
+            contextQuestion.beginPath();
+            contextQuestion.lineWidth = 1;
+            contextQuestion.strokeStyle = "black";
+
+            context.beginPath();
+            context.lineWidth = 1;
+            context.strokeStyle = "black";
+
+
+            // DRAW THE GRID
+            for (var i = GRID_SIZE; i < GRID_WIDTH; i+=GRID_SIZE){
+                contextQuestion.moveTo(i,0);
+                contextQuestion.lineTo(i,GRID_HEIGHT);
+                contextQuestion.stroke();
+
+                context.moveTo(i,0);
+                context.lineTo(i,GRID_HEIGHT);
+                context.stroke();
+            }
+
+            for (var i = GRID_SIZE; i < GRID_HEIGHT; i+=GRID_SIZE){
+                contextQuestion.moveTo(0,i);
+                contextQuestion.lineTo(GRID_WIDTH,i);
+                contextQuestion.stroke();
+
+                context.moveTo(0,i);
+                context.lineTo(GRID_WIDTH,i);
+                context.stroke();
+            }
+            // END OF DRAWING THE GRID
+
+            // FONT SIZE IS 80% SIZE OF EACH SQUARE
+            var fontSize = Math.floor(GRID_SIZE * 0.8);
+
+
+            var smallFontSize = Math.floor(GRID_SIZE * 0.35);
+            if (GRID_SIZE < 34) smallFontSize = 12;
+
+
+            context.font = fontSize.toString() + "px _sans";
+            context.textBaseline = "middle";
+
+            contextQuestion.font = 
+                smallFontSize.toString() + "px _sans";
+
+            // GENERATE ARRAY OF WORDS TO PUT INTO THE CANVAS
+            var rawData = $('#txtWords').val();
+            var aValues = rawData.split('\n');
+
+            // GET AND DISPLAY THE CROSSWORD  
+
+            console.clear();
+        
+            if (PROFILE_CREATE){
+                console.profile('xWords.Create()');
+            }
+
+            var crossword = xWords.Create(
+                VERTICAL_BOXES,
+                HORIZONTAL_BOXES,
+                aValues);
+
+            if (PROFILE_CREATE){
+                console.profileEnd();
+            }
+
+            var qGrid = xWords.GetQuestionGrid();
+
+            for (var i = 0; i < crossword.length; i++){
+                for (var j = 0; j < crossword[i].length; j++){
+                    if (crossword[i][j].length == 0){
+
+                        contextQuestion.rect(i*GRID_SIZE,j*GRID_SIZE, GRID_SIZE, GRID_SIZE);
+                        contextQuestion.fill();
+
+                        context.rect(i*GRID_SIZE,j*GRID_SIZE, GRID_SIZE, GRID_SIZE);
+                        context.fill();
+                    } else {
+
+                        if (qGrid[i][j].length > 0){
+
+                            var qAdjustW = GRID_SIZE * 0.05;
+                            var qAdjustH = GRID_SIZE * 0.3;
+
+                            if (GRID_SIZE < 34) {
+                                qAdjustW = 1.9;
+                                qAdjustH = 10.6;
+                            } 
+
+                            contextQuestion.fillText(qGrid[i][j],
+                              i*GRID_SIZE + qAdjustW, 
+                              j*GRID_SIZE + qAdjustH);
+                        }
+
+                        var x = Math.round((GRID_SIZE - 
+                        context.measureText(crossword[i][j]).width) / 2);
+                        context.fillText(crossword[i][j],
+                          i*GRID_SIZE + x - 0.5, 
+                          j*GRID_SIZE + (GRID_SIZE/2));
+                    }
+                }
+            }
+
+            contextQuestion.stroke();
+            contextQuestion.closePath();
+
+            context.stroke();
+            context.closePath();
+
+            $('#across').html("<h2>ACROSS</h2>");
+            $('#down').html("<h2>DOWN</h2>");
+            $('#unused').html("<h2>UNUSED</h2>");
+
+            var unusedList = xWords.GetUnusedWords();
+            for (var x = 0; x < unusedList.length; x++){
+                $('#unused').append(
+                    '<div>' + 
+                    unusedList[x] + 
+                    '</div>');
+            }
+
+            var qList = xWords.GetQuestionList();
+
+            for (var i = 0; i < qList.length; i++){
+
+                switch (qList[i].d){
+
+                    case xWords.HORIZONTAL :
+                        $('#across').append(
+                            '<div>' + 
+                            qList[i].num + 
+                            '. ' + 
+                            qList[i].clue + 
+                            '</div>');
+                        break;
+                        
+                    case xWords.VERTICAL :
+                        $('#down').append(
+                            '<div>' + 
+                            qList[i].num + 
+                            '. ' + 
+                            qList[i].clue + 
+                            '</div>');
+                        break;
+                        
+                }
+
+            }
+
+            $('#mainContainer').show();
+            $('.loading').hide();
+        }
+
+        window.onload = function(){
+            // set up the question canvas and the answer canvas
+            canvasQuestion = document.getElementById("myQuestionCanvas");
+            contextQuestion = canvasQuestion.getContext("2d");
+
+            canvas = document.getElementById("myCanvas");
+            context = canvas.getContext("2d");
+        }
+    </script>
+  </body>
+</html>
