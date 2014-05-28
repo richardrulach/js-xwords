@@ -337,9 +337,8 @@ function PrintCrossword()
         html+="</body></html>";
     }
 
-    var printWin = window.open('','','toolbar=0,scrollbars=1,status=0');
+    var printWin = window.open('','_blank','toolbar=0,scrollbars=1,status=0');
     printWin.document.write(html);
     printWin.document.close();
-    printWin.focus();
     printWin.print();
 }
