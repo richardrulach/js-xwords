@@ -197,6 +197,10 @@ function run(){
 
     $('#mainContainer').show();
     $('.loading').hide();
+
+    $('html, body').animate({
+        scrollTop: $("#topContainer").offset().top
+    }, 2000);
 }
 
 
