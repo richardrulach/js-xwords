@@ -280,12 +280,11 @@ function PrintCrossword()
     html += ' .sectionContainer { text-align:center;margin-top:20px;}';
     html += ' img { border:2px solid black; }';
     html += ' .cluesLeft { float:left; text-align:left; width:190px; }';
-    html += ' .cluesRight {  float:left;text-align:left; width:190px; margin:left:30px; }';
+    html += ' .cluesRight { float:right;text-align:left; width:190px; margin:left:30px; }';
     html += ' .outerClues { width:100%; text-align:center; }';
-    html += ' .innerClues { width:400px; margin:0px auto; }';
+    html += ' .innerClues { background-color:blue;width:400px; margin:0px auto; }';
     html += ' header { text-align:center;  }';
     html += ' header, .innerClues, .outerClues {font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }'
-
     html += ' br { clear: both; }';
     html += '</style>';
 
@@ -307,7 +306,6 @@ function PrintCrossword()
 
     html += '<div class="outerClues">';
     html += '<div class="innerClues">';
-   html += '<div style="float:left;width:20px;"></div>';
 
     html += '<div class="cluesLeft">' +    $('#across').html() + 
             '</div>';
