@@ -26,3 +26,6 @@ The bulk of the code is separated into two files.  The display code is in [xWord
 The functions in xWordsDisplay are called from the interface in the HTML file ([index.htm](src/index.htm)) and xWordsDisplay calls xWords using the create function which returns the crossword question and answer grids.
 
 xWords.js can be reused elsewhere independent of the rest of the code on the site for crossword puzzle generation.
+
+## Known issues ##
+[Chrome Print Bug](/issues/6)
