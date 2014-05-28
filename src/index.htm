@@ -24,6 +24,8 @@
         .sliderText span { font-weight: normal;}
         .sliderValues { font-weight: bold;}
         .sliderContainer { margin-bottom:20px;}
+
+        label {font-weight: normal;}
     </style>
   </head>
   <body>
@@ -73,6 +75,7 @@
                 <div>
                     <div class="sliderText">
                         Words and Clues:</div>
+                    <p>Enter a list of words and clues separated by a comma (','). To see an example <a href="javascript: btnLoadSampleData_click()">VIEW SAMPLE DATA</a>.</p>
                     <textarea style="width:100%" id="txtWords" rows="10"></textarea>
                 </div>
             </div>
@@ -96,6 +99,17 @@
                 <div class="sliderText">Reveal letters <span id="revealLettersValue"></span></div>
                 <div class="sliderContainer">
                     <div id="revealLettersSlider"></div>
+                </div>
+                <div class="sliderText">Print options</div>
+                <div class="sliderContainer">
+                    <input id="rdAll" type="radio" name="printOptions" value="all" />
+                    <label for="rdAll">Everything</label>
+                    &nbsp;&nbsp;&nbsp;
+                    <input id="rdQuestion" type="radio" name="printOptions" value="question" />
+                    <label for="rdQuestion">Question only</label>
+                    &nbsp;&nbsp;&nbsp;
+                    <input id="rdAnswers" type="radio" name="printOptions" value="answers" />
+                    <label for="rdAnswers">Answers only</label>
                 </div>
                 <div>
                     <input 

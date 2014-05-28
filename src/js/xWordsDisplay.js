@@ -302,30 +302,40 @@ function PrintCrossword()
     }
 
     html += '</header></div>';
-    html += '<div class="sectionContainer">';
-    html += '<img src="' +
-        canvasQuestion.toDataURL('image/png') + '" />';
-    html += '</div>';
+
+    if (($("#rdAll").prop("checked"))||
+        ($("#rdQuestion").prop("checked"))){
+
+        html += '<div class="sectionContainer">';
+        html += '<img src="' +
+            canvasQuestion.toDataURL('image/png') + '" />';
+        html += '</div>';
 
 
-    html += '<div class="outerClues">';
-    html += '<div class="innerClues">';
+        html += '<div class="outerClues">';
+        html += '<div class="innerClues">';
 
-    html += '<div class="cluesLeft">' +    $('#across').html() + 
-            '</div>';
+        html += '<div class="cluesLeft">' +    $('#across').html() + 
+                '</div>';
 
-    html += '<div class="cluesRight">' +    $('#down').html() + 
-            '</div>';
+        html += '<div class="cluesRight">' +    $('#down').html() + 
+                '</div>';
 
-    html += '</div>';
-    html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '<br />';
+    }
 
-    html += '<br />';
-    html += '<div class="sectionContainer">';
-    html += '<img src="' +
-        canvas.toDataURL('image/png') + '" />';
-    html += '</div>';
-    html+="</body></html>";
+
+    if (($("#rdAll").prop("checked"))||
+        ($("#rdAnswers").prop("checked"))){
+
+        html += '<div class="sectionContainer">';
+        html += '<img src="' +
+            canvas.toDataURL('image/png') + '" />';
+        html += '</div>';
+        html+="</body></html>";
+    }
 
     var printWin = window.open('','','toolbar=0,scrollbars=1,status=0');
     printWin.document.write(html);
