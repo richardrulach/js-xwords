@@ -25,7 +25,6 @@ var REVEAL_LETTERS = 0;
 var GRID_WIDTH = GRID_SIZE * HORIZONTAL_BOXES;
 var GRID_HEIGHT = GRID_SIZE * VERTICAL_BOXES;
 
-var printWin;
 
 // UPDATE FUNCTIONS FOR THE GLOBAL DISPLAY SETTINGS
 function updateBoxSize(numPixels){
@@ -54,7 +53,7 @@ function btnPrint_click(){
 }
 
 
-function btnLoadSampleData_click(){
+function LoadSampleData(){
     $('#txtWords').val(
         'jumper,keeps you warm in winter\n' + 
         'jeans,usually faded blue\n' +
@@ -288,13 +287,14 @@ function PrintCrossword()
     html += ' .cluesLeft { float:left; text-align:left; width:190px; }';
     html += ' .cluesRight { float:right;text-align:left; width:190px; margin:left:30px; }';
     html += ' .outerClues { width:100%; text-align:center; }';
-    html += ' .innerClues { background-color:blue;width:100px; margin:0px auto; }';
+    html += ' .innerClues { background-color:blue;width:400px; margin:0px auto; }';
     html += ' header { text-align:center;  }';
     html += ' header, .innerClues, .outerClues {font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }'
     html += ' br { clear: both; }';
+    html += ' @media print{ .noprint { display: none !important;}}';
     html += '</style>';
-
-    html += '</head><body">';
+    html += '</head><body>';
+    html += '<input class="noprint" type="button" value="print" onclick="window.print();window.focus();" />';
     html += '<header>';
 
     if ($('#txtCrosswordTitle').val().trim().length > 0){
@@ -315,7 +315,7 @@ function PrintCrossword()
 
 
         html += '<div class="outerClues">';
-        html += '<div class="innerClues" style="background-color:blue;">';
+        html += '<div class="innerClues">';
 
         html += '<div class="cluesLeft">' +    $('#across').html() + 
                 '</div>';
@@ -339,8 +339,8 @@ function PrintCrossword()
         html+="</body></html>";
     }
 
-    printWin = window.open('','_blank','toolbar=0,scrollbars=1,status=0');
+    var printWin = window.open('','','scrollbars=1');
     printWin.document.write(html);
     printWin.document.close();
-    printWin.print();
+    printWin.focus();
 }
