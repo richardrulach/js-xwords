@@ -25,6 +25,8 @@ var REVEAL_LETTERS = 0;
 var GRID_WIDTH = GRID_SIZE * HORIZONTAL_BOXES;
 var GRID_HEIGHT = GRID_SIZE * VERTICAL_BOXES;
 
+var printWin;
+
 // UPDATE FUNCTIONS FOR THE GLOBAL DISPLAY SETTINGS
 function updateBoxSize(numPixels){
     GRID_SIZE = numPixels;
@@ -286,7 +288,7 @@ function PrintCrossword()
     html += ' .cluesLeft { float:left; text-align:left; width:190px; }';
     html += ' .cluesRight { float:right;text-align:left; width:190px; margin:left:30px; }';
     html += ' .outerClues { width:100%; text-align:center; }';
-    html += ' .innerClues { background-color:blue;width:400px; margin:0px auto; }';
+    html += ' .innerClues { background-color:blue;width:100px; margin:0px auto; }';
     html += ' header { text-align:center;  }';
     html += ' header, .innerClues, .outerClues {font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }'
     html += ' br { clear: both; }';
@@ -313,7 +315,7 @@ function PrintCrossword()
 
 
         html += '<div class="outerClues">';
-        html += '<div class="innerClues">';
+        html += '<div class="innerClues" style="background-color:blue;">';
 
         html += '<div class="cluesLeft">' +    $('#across').html() + 
                 '</div>';
@@ -337,7 +339,7 @@ function PrintCrossword()
         html+="</body></html>";
     }
 
-    var printWin = window.open('','_blank','toolbar=0,scrollbars=1,status=0');
+    printWin = window.open('','_blank','toolbar=0,scrollbars=1,status=0');
     printWin.document.write(html);
     printWin.document.close();
     printWin.print();
