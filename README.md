@@ -28,4 +28,4 @@ The functions in xWordsDisplay are called from the interface in the HTML file ([
 xWords.js can be reused elsewhere independent of the rest of the code on the site for crossword puzzle generation.
 
 ## Known issues ##
-[Chrome Print Bug](/issues/6)
+[Chrome Print Bug](https://github.com/waystoskinacat/js-xwords/issues/6)
