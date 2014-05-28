@@ -274,37 +274,53 @@ function DrawGrid(){
 function PrintCrossword()
 {
     var html="<!DOCTYPE html><html>";
-    html += '<head></head><body">';
-    html += '<header style="text-align:center;">';
+    html += '<head>';
+
+    html += '<style>';
+    html += ' .sectionContainer { text-align:center;margin-top:20px;}';
+    html += ' img { border:2px solid black; }';
+    html += ' .cluesLeft { float:left; text-align:left; width:190px; }';
+    html += ' .cluesRight {  float:left;text-align:left; width:190px; margin:left:30px; }';
+    html += ' .outerClues { width:100%; text-align:center; }';
+    html += ' .innerClues { width:400px; margin:0px auto; }';
+    html += ' header { text-align:center;  }';
+    html += ' header, .innerClues, .outerClues {font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }'
+
+    html += ' br { clear: both; }';
+    html += '</style>';
+
+    html += '</head><body">';
+    html += '<header>';
 
     if ($('#txtCrosswordTitle').val().trim().length > 0){
         html += '<h1>' + $('#txtCrosswordTitle').val().trim() + '</h1>';
     } else {
-        html += '<h1>xWords Crossword</h1>';
+        html += '<h1>New crossword</h1>';
     }
 
     html += '</header></div>';
-    html += '<div style="text-align:center;margin-top:20px;">';
-    html += '<img border="2px" src="' +
+    html += '<div class="sectionContainer">';
+    html += '<img src="' +
         canvasQuestion.toDataURL('image/png') + '" />';
     html += '</div>';
 
 
-    html += '<div style="width:100%; text-align:center">';
-    html += '<div style="width:400px; margin:0px auto;">';
+    html += '<div class="outerClues">';
+    html += '<div class="innerClues">';
+   html += '<div style="float:left;width:20px;"></div>';
 
-    html += '<div style="float:left;text-align:left; width:190px;">' +    $('#across').html() + 
+    html += '<div class="cluesLeft">' +    $('#across').html() + 
             '</div>';
 
-    html += '<div style="float:right;text-align:left; width:190px;">' +    $('#down').html() + 
+    html += '<div class="cluesRight">' +    $('#down').html() + 
             '</div>';
 
     html += '</div>';
     html += '</div>';
 
-    html += '<br style="clear:both;" />';
-    html += '<div style="text-align:center;margin-top:20px;">';
-    html += '<img border="2px" src="' +
+    html += '<br />';
+    html += '<div class="sectionContainer">';
+    html += '<img src="' +
         canvas.toDataURL('image/png') + '" />';
     html += '</div>';
     html+="</body></html>";
