@@ -196,6 +196,9 @@ function run(){
     DisplayErrors();
 
 
+    $('#downloadQuestion').prop('href', canvasQuestion.toDataURL('image/png'));
+    $('#downloadAnswer').prop('href', canvas.toDataURL('image/png'));
+
     $('#mainContainer').show();
     $('.loading').hide();
 
@@ -255,7 +258,8 @@ function DisplayClues(){
 }
 
 function DrawGrid(){
-    for (var i = GRID_SIZE; i < GRID_WIDTH; i+=GRID_SIZE){
+    for (var i = 0; i <= GRID_WIDTH; i+=GRID_SIZE){
+
         contextQuestion.moveTo(i,0);
         contextQuestion.lineTo(i,GRID_HEIGHT);
         contextQuestion.stroke();
@@ -265,13 +269,14 @@ function DrawGrid(){
         context.stroke();
     }
 
-    for (var i = GRID_SIZE; i < GRID_HEIGHT; i+=GRID_SIZE){
-        contextQuestion.moveTo(0,i);
-        contextQuestion.lineTo(GRID_WIDTH,i);
+    for (var i = 0; i <= GRID_HEIGHT; i+=GRID_SIZE){
+
+        contextQuestion.moveTo(0, i);
+        contextQuestion.lineTo(GRID_WIDTH, i);
         contextQuestion.stroke();
 
-        context.moveTo(0,i);
-        context.lineTo(GRID_WIDTH,i);
+        context.moveTo(0, i);
+        context.lineTo(GRID_WIDTH, i);
         context.stroke();
     }
 }
