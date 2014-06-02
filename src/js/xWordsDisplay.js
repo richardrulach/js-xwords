@@ -204,7 +204,7 @@ function run(){
 
     $('html, body').animate({
         scrollTop: $("#topContainer").offset().top
-    }, 2000);
+    }, 400);
 }
 
 
