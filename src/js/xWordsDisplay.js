@@ -147,9 +147,6 @@ function run(){
     var contextQuestionSmallFont = smallFontSize.toString() + "px _sans";
     var contextQuestionLargeFont = fontSize.toString() + "px _sans";
 
-    // GENERATE ARRAY OF WORDS TO PUT INTO THE CANVAS
-//    var rawData = $('#txtWords').val();
-//    var aValues = rawData.split('\n');
 
     var aValues = new Array();
 
@@ -158,14 +155,6 @@ function run(){
         console.log($(sourceData[x]).find('.word_text_box').val() + ',' + $(sourceData[x]).find('.clue_text_box').val());
         aValues.push( $(sourceData[x]).find('.word_text_box').val() + ',' + $(sourceData[x]).find('.clue_text_box').val() );
     }
-
-
-
-    // aValues.push('jumper,something you wear');
-    // aValues.push('sweater,something you wear');
-    // aValues.push('winter,something you wear');
-    // aValues.push('summer,something you wear');
-    // aValues.push('autumn,something you wear');
 
 
     // GET THE CROSSWORD 
