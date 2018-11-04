@@ -46,7 +46,7 @@ function add_new_pair(word, clue){
     if (clue == undefined) clue = '';
 
     $('div.input_in_fields').append(
-        '<div id="fieldInput' + fieldInputCounter++ + '" class="word_clue_container"><div class="word"><input class="word_text_box" type="text" value="' + word + '" /></div><div class="clue"><input class="clue_text_box" type="text" value="' + clue + '" /> <a href="#" onclick="del(this)">(del)</a></div></div>'
+        '<div id="fieldInput' + fieldInputCounter++ + '" class="word_clue_container"><div class="word"><input class="word_text_box" type="text" value="' + word + '" /></div><div class="clue"><input class="clue_text_box" type="text" value="' + clue + '" /> <a href="#_" onclick="del(this)">(del)</a></div></div>'
     );
     $('.word_clue_container:last-child > div.word > input').focus();
     update_tab_trigger();
@@ -56,6 +56,7 @@ function add_new_pair(word, clue){
 function del(elem){
     if ($('div.input_in_fields > div').length > 1){
         $(elem).parent().parent().remove();
+        return false;
     }
 }
 
