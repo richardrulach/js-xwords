@@ -25,7 +25,11 @@
         .sliderValues { font-weight: bold;}
         .sliderContainer { margin-bottom:20px;}
 
+
         label {font-weight: normal;}
+
+        .input_in_fields_header > div { width: 45%; float: left; font-weight:bold; font-size: 1.2em }
+        .word_clue_container > div { width: 45%; float: left; margin-bottom: 10px; }
     </style>
   </head>
   <body>
@@ -75,10 +79,23 @@
         <div class="row">
             <div class="col-sm-6">
                 <div>
-                    <div class="sliderText">
-                        Words and Clues:</div>
-                    <p>Enter a list of words and clues separated by a comma (','). To see an example <a href="javascript: LoadSampleData();">VIEW SAMPLE DATA</a>.</p>
-                    <textarea style="width:100%" id="txtWords" rows="10"></textarea>
+                    <p>Enter a list of words and clues. To see an example <a href="javascript: LoadSampleData();">VIEW SAMPLE DATA</a>.</p>
+                    <div class="input_in_fields_header">
+                        <div>Words:</div>
+                        <div>Clues:</div>
+                    </div>    
+                    <div class="input_in_fields">
+                        <div class="word_clue_container">
+                            <div class="word"><input class="word_text_box" type="text" /></div>
+                            <div class="clue"><input class="clue_text_box" type="text" /> <a href="#" onclick="del(this)">(del)</a></div>
+                        </div>
+                    </div>  
+                    <div>
+                        <input 
+                                type="button" 
+                                onclick="add_new_pair()"
+                                value="Add word and clue" />
+                    </div>  
                 </div>
             </div>
             <div class="col-sm-6">
@@ -142,7 +159,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <script src="js/xWords.js"></script>
     <script src="js/xWordsDisplay.js"></script>
     <script>

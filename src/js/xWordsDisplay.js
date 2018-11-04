@@ -25,6 +25,39 @@ var REVEAL_LETTERS = 0;
 var GRID_WIDTH = GRID_SIZE * HORIZONTAL_BOXES;
 var GRID_HEIGHT = GRID_SIZE * VERTICAL_BOXES;
 
+var fieldInputCounter = 2;
+
+function update_tab_trigger(){
+    $('div.clue').on('keydown', 'input', function(e) {
+        if (e.which == 9) {
+            if ($(this).parent().parent().is(':last-child')){
+                e.preventDefault();
+                add_new_pair();
+            }
+        }
+    }); 
+}
+
+update_tab_trigger();
+
+function add_new_pair(word, clue){
+
+    if (word == undefined) word = '';
+    if (clue == undefined) clue = '';
+
+    $('div.input_in_fields').append(
+        '<div id="fieldInput' + fieldInputCounter++ + '" class="word_clue_container"><div class="word"><input class="word_text_box" type="text" value="' + word + '" /></div><div class="clue"><input class="clue_text_box" type="text" value="' + clue + '" /> <a href="#" onclick="del(this)">(del)</a></div></div>'
+    );
+    $('.word_clue_container:last-child > div.word > input').focus();
+    update_tab_trigger();
+}
+
+
+function del(elem){
+    if ($('div.input_in_fields > div').length > 1){
+        $(elem).parent().parent().remove();
+    }
+}
 
 // UPDATE FUNCTIONS FOR THE GLOBAL DISPLAY SETTINGS
 function updateBoxSize(numPixels){
@@ -53,19 +86,25 @@ function btnPrint_click(){
 }
 
 
+var aSampleData = [
+        ['jumper','keeps you warm in winter'], 
+        ['jeans','usually faded blue'],
+        ['skirt','women wear these over their legs'], 
+        ['trousers','men wear these over their legs'],
+        ['socks','worn on the feet'],
+        ['shoes','usually have laces'],
+        ['shirt','worn on the body and usually has buttons'],
+        ['hat','keeps your head warm'],
+        ['gloves','normally only worn when it is very cold to protect your hands']
+];
+
 function LoadSampleData(){
-    $('#txtWords').val(
-        'jumper,keeps you warm in winter\n' + 
-        'jeans,usually faded blue\n' +
-        'skirt,women wear these over their legs\n' + 
-        'trousers,men wear these over their legs\n' +
-        'socks,worn on the feet\n' +
-        'shoes,usually have laces\n' +
-        'shirt,worn on the body and usually has buttons\n' +
-        'hat,keeps your head warm\n' +
-        'gloves,normally only worn when it is very cold to protect your hands\n'
-        );
+    $('.input_in_fields > div').remove();
+    for (var x = 0; x < 9; x++){
+        add_new_pair(aSampleData[x][0], aSampleData[x][1]);
+    }
 }
+
 
 function run(){
 
@@ -108,8 +147,25 @@ function run(){
     var contextQuestionLargeFont = fontSize.toString() + "px _sans";
 
     // GENERATE ARRAY OF WORDS TO PUT INTO THE CANVAS
-    var rawData = $('#txtWords').val();
-    var aValues = rawData.split('\n');
+//    var rawData = $('#txtWords').val();
+//    var aValues = rawData.split('\n');
+
+    var aValues = new Array();
+
+    var sourceData = $('div.input_in_fields > div');
+    for (var x = 0; x < sourceData.length; x++){
+        console.log($(sourceData[x]).find('.word_text_box').val() + ',' + $(sourceData[x]).find('.clue_text_box').val());
+        aValues.push( $(sourceData[x]).find('.word_text_box').val() + ',' + $(sourceData[x]).find('.clue_text_box').val() );
+    }
+
+
+
+    // aValues.push('jumper,something you wear');
+    // aValues.push('sweater,something you wear');
+    // aValues.push('winter,something you wear');
+    // aValues.push('summer,something you wear');
+    // aValues.push('autumn,something you wear');
+
 
     // GET THE CROSSWORD 
     if (RUN_PROFILER) console.clear();
